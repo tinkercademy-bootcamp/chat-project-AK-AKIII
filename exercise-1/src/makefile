@@ -1,5 +1,3 @@
-CXX = g++
-CXXFLAGS = -Wall -Wextra -O2
 BUILD_DIR = build
 
 all: $(BUILD_DIR)/server $(BUILD_DIR)/client
@@ -9,14 +7,15 @@ $(BUILD_DIR):
 
 $(BUILD_DIR)/server: tcp_echo_server.cc | $(BUILD_DIR)
 	@echo "Compiling server..."
-	$(CXX) $(CXXFLAGS) $< -o $@
+	g++ tcp_echo_server.cc -o $(BUILD_DIR)/server
 
 $(BUILD_DIR)/client: tcp_echo_client.cc | $(BUILD_DIR)
 	@echo "Compiling client..."
-	$(CXX) $(CXXFLAGS) $< -o $@
+	g++ tcp_echo_client.cc -o $(BUILD_DIR)/client
 
 clean:
-	@echo "Removing build directory..."
+	@echo "Cleaning build directory..."
 	rm -rf $(BUILD_DIR)
 
 .PHONY: all clean
+
