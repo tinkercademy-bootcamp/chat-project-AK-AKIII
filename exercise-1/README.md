@@ -121,8 +121,7 @@
     - ./main
 ## Improving Interactions with LLMs
 
-- What is the most authoritative source of information about `socket()`
-  from `<sys/socket.h>`?
+- What is the most authoritative source of information about `socket()` from `<sys/socket.h>`?
     - Official system manual : man 2 socket
 - What is the most authoritative source of information about the TCP and IP protocols?
   - IETF RFC Repository (https://datatracker.ietf.org/doc/html/rfc1180#section-2)
