@@ -44,7 +44,7 @@ void send_and_receive_message(int sock, const std::string &message) {
   const int kBufferSize = 1024;
   // #Question - is buffer the best name we can use?
   char buffer[kBufferSize] = {0};
-
+ // Answer : We can use 
   // Send the message to the server
   send(sock, message.c_str(), message.size(), 0);
   std::cout << "Sent: " << message << "\n";

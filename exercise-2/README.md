@@ -40,9 +40,7 @@
   - GCC(G++)
   - CLANG(LLVM)
   - Microsoft Visual C++ Compiler
-  - Intel ICC Compiler
-- Where is the equivalent spec for C++26?
-
+  - Intel ICC Compiler- Where is the equivalent spec for C++26?  - Unsure yet
 - Where do you find the spec for the HTTP protocol?
   - IETF RFC Repository
 - What about HTTPS? Is there a spec for that protocol?
@@ -50,41 +48,56 @@
 ## Introduction to C++ and Sockets Programming
 
 - Read the code in `src/`
-  - Read
 - Are there any bugs in this code? 
+  - I am running debugger but unfortunately not getting any bugs. 
 - What can you do to identify if there are bugs in the code?
+  - We can use gdb debugger to identify the bugs in code
 
 ## Refactoring: Extract Function
 
 - What is different in this code compared to exercise-1?
+   - All the code is there in function and the functions are in main so it improves the readability of code.
 - Is this code better or worse than exercise-1?
+  -  Its better in terms of readability and we can check the bugs by expanding the functions easily.
 - What are the tradeoffs compared to exercise-1?
+  - The tradeoff is that the code gets a lot longer, and tracking how it runs can be a bit harder since you need to jump between multiple functions.
 - Are you able to spot any mistakes or inconsistencies in the changes?
-  
+  - Not yet but am trying to spot the mistakes/inconsistencies in the chnages.
 ## Thinking About Performance
 
 - Does writing code this way have any impact on performance?
+  - For this kind of program, the impact on performance is usually minimal. Since the functions are small and simple, modern compilers can optimize by inlining them. Instead its just helping in organising the functions.
+
 - What do we mean when we say performance?
+  - We mean to measure the Time complexity and Space it takes to execute the program.
 - How do we measure performance in a program?
+  - We can measure it by checking how long the program takes to run, how much system resources it uses, and comparing it against some standard industry benchmarks for performance.
 
 ## Play with Git
 
 - There isn't necessarily a single correct answer for how to abstract the code from exercise-1 into functions
 - Try different ways to refactor the code from exercise-1 to make it more readable.
 - Make sure to commit each change as small and self-contained commit
+  - OKAY
 - This will make it easier to revert your code if you need to
 - What is `git tag`? How is `git tag` different from `git branch`?
-- How can you use `git tag` and `git branch` to make programming easier and
-  more fun?
+  - A git tag is like a snapshot that points to a specific commit in our project’s history. It doesn’t change or move and just marks that exact moment in time, making it easy to look back and see exactly how your code was at that point.
+  - A git branch is like a separate workspace where we can keep adding new commits as long as we fix the bugs/issues.Branches are more flexible than tag and flexible in updating the commits.
+- How can you use `git tag` and `git branch` to make programming easier and more fun?
+  - Tags help us label important versions or key moments in our project so we can easily go back to them.
+  - Branches help us try new ideas without commiting to main so we can explore different ideas 
+  - I think using both can help improve the work and would be clean for repository
 
 ## Learn Basics of Debugging in Your IDE
 
 - How do you enable debug mode in your IDE?
+
 - In debug mode, how do you add a watch?
+  - 
 - In debug mode, how do you add a breakpoint?
 - In debug mode, how do you step through code?
 
 ### Memory Management and Debug Mode in Your IDE
 
 - How do you see the memory layout of a `std::string` from your IDE debug mode?
-- How do you see the memory layout of a struct from your IDE debug mode?
+  - How do you see the memory layout of a struct from your IDE debug mode?

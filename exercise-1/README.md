@@ -85,9 +85,9 @@
 - How do you change the code so that you are sending messages to servers other than localhost?
   - We can  change the kServer IP address
 - How do you change the code to send to a IPv6 address instead of IPv4?
-- **Bonus**: How do you change the client code to connect by hostname instead
-  of IP address?
-  
+  - IPv6 contains characters as well apart from numbers while IPv4 use just numbers.
+- **Bonus**: How do you change the client code to connect by hostname instead of IP address?
+  - Unsure
 ## Introduction to Memory Management
 
 - What is happening in line 26 of `tcp-echo-client.cc`? 
