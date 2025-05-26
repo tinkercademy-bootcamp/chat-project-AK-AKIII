@@ -40,7 +40,9 @@
   - GCC(G++)
   - CLANG(LLVM)
   - Microsoft Visual C++ Compiler
-  - Intel ICC Compiler- Where is the equivalent spec for C++26?  - Unsure yet
+  - Intel ICC Compiler
+- Where is the equivalent spec for C++26? 
+  - Unsure yet
 - Where do you find the spec for the HTTP protocol?
   - IETF RFC Repository
 - What about HTTPS? Is there a spec for that protocol?
@@ -48,6 +50,7 @@
 ## Introduction to C++ and Sockets Programming
 
 - Read the code in `src/`
+  - Read
 - Are there any bugs in this code? 
   - I am running debugger but unfortunately not getting any bugs. 
 - What can you do to identify if there are bugs in the code?
@@ -81,7 +84,7 @@
   - OKAY
 - This will make it easier to revert your code if you need to
 - What is `git tag`? How is `git tag` different from `git branch`?
-  - A git tag is like a snapshot that points to a specific commit in our project’s history. It doesn’t change or move and just marks that exact moment in time, making it easy to look back and see exactly how your code was at that point.
+  - A git tag points to a specific commit in our project’s history. It doesn’t change or move and just marks that exact moment in time, making it easy to look back and see exactly how our code was at that point.
   - A git branch is like a separate workspace where we can keep adding new commits as long as we fix the bugs/issues.Branches are more flexible than tag and flexible in updating the commits.
 - How can you use `git tag` and `git branch` to make programming easier and more fun?
   - Tags help us label important versions or key moments in our project so we can easily go back to them.
@@ -91,15 +94,19 @@
 ## Learn Basics of Debugging in Your IDE
 
 - How do you enable debug mode in your IDE?
-  - 
+  - We can enable debug mode by going to the Run tab and clicking Start Debugging. This lets us run the program with debugging enabled so we can pause. Most IDEs has debugger installed otherwise we will have to install dbg extension.
 - In debug mode, how do you add a watch?
-  - 
+  - When the program is paused, we can find the Watch panel on the left side. We can click the + button there and type the variable name we want to watch.
 - In debug mode, how do you add a breakpoint?
-  - I 
+  - We can add a breakpoint by clicking on the left margin next to the line numbers in the editor where we want the program to stop. A red dot will appear which means the breakdown is set.
 - In debug mode, how do you step through code?
-  - 
+  - When the program is paused at a breakpoint, we can press F10 to step over the current line (run it without going inside functions). We can press F11 to step into a function if we want to see what happens inside it.
 
 ### Memory Management and Debug Mode in Your IDE
 
 - How do you see the memory layout of a `std::string` from your IDE debug mode?
-  - How do you see the memory layout of a struct from your IDE debug mode?
+  - Its there in Command Pallet. We would open it and search for debug and enter the memory address of std::string
+- How do you see the memory layout of a struct from your IDE debug mode?
+  - We can open the memory viewer at a variable’s address by hovering over it in the variables pane.
+  - We can then select view memory option
+  
