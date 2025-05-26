@@ -91,11 +91,13 @@
 ## Learn Basics of Debugging in Your IDE
 
 - How do you enable debug mode in your IDE?
-
+  - 
 - In debug mode, how do you add a watch?
   - 
 - In debug mode, how do you add a breakpoint?
+  - I 
 - In debug mode, how do you step through code?
+  - 
 
 ### Memory Management and Debug Mode in Your IDE
 
