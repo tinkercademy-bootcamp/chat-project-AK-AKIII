@@ -85,7 +85,7 @@
 - How do you change the code so that you are sending messages to servers other than localhost?
   - We can  change the kServer IP address
 - How do you change the code to send to a IPv6 address instead of IPv4?
-  - IPv6 contains characters as well apart from numbers while IPv4 use just numbers.
+  - IPv6 contains characters as well apart from numbers while IPv4 use just numbers.We should replace AF_INET (IPv4) with AF_INET6 (IPv6).
 - **Bonus**: How do you change the client code to connect by hostname instead of IP address?
   - Unsure
 ## Introduction to Memory Management
@@ -104,9 +104,11 @@
 - When is it better to use a reference?
   - References are better than pointers when you want to ensure that a variable always refers to a valid object and you don’t need to reassign or represent null values. They are ideal for passing large objects to functions without copying, improving performance while keeping syntax clean and safe. References are also preferred in operator overloading, function return types, and range-based loops where pointer semantics are unnecessary.
 - What is the difference between `std::string` and a C-style string?
-  - std::string is a C++ standard library class that manages text as a dynamic, resizable object with built-in functions for easy manipulation and automatic memory management, making it safer and more convenient to use. In contrast, a C-style string is a simple array of characters terminated by a null character ('\0'), requiring manual handling of memory and string operations, which can lead to errors like buffer overflows and incorrect termination. Thus, std::string provides a higher-level, more robust way to work with strings compared to the low-level and error-prone C-style strings.
+  - std::string is a C++ standard library class that manages text as a dynamic, resizable object with built-in functions for easy manipulation and automatic memory management, making it safer and more convenient to use.
+  - While a C-style string is a simple array of characters terminated by a null character ('\0'), requiring manual handling of memory and string operations, which can lead to errors like buffer overflows and incorrect termination. Thus, std::string provides a higher-level, more robust way to work with strings compared to the low-level and error-prone C-style strings.
 - What type is a C-style string?
-  - A C-style string is of type char* or const char* (for string literals), or an array like char name. It points to a sequence of characters ending in a null terminator ('\0')
+  - A C-style string is of type char* or const char* (for string literals), or an array like char name.
+  - It points to a sequence of characters ending in a null terminator ('\0')
 - What happens when you iterate a pointer?
   - When we iterate a pointer , we move it from one memory address from another while incrementing it.
 - What are the most important safety tips to know when using pointers?
