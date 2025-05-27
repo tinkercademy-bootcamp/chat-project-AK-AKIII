@@ -43,24 +43,37 @@
 
 - Make sure you have `-fsanitize=address` in both your `CXX_FLAGS` and 
   `LD_FLAGS` in your Makefile
+    - Updated Makefile
 - What do `-fsanitize=address`, `CXX_FLAGS` and `LD_FLAGS` mean?
+  - `-fsanitize=address`= When we compile and link our program with this flag, it inserts extra code to check memory accesses at runtime and reports errors if something goes wrong.
+  - `CXX_FLAGS` = This is a variable that stores options passed to the C++ compiler for eg. -g,-O2
+  - `LD_FLAGS` = This is a variable that stores options passed to the linker. The linker combines compiled object files into the final executable.
+
 - With the new tool of the Compiler Explorer, and keeping in mind what you 
   have learned about how to use debug mode
 - What happens when you look at a `std::string` using the above methods?
+  - When I look at a std::string, I can’t see the full text directly in the debugger.he string object holds a pointer to the text, plus size and capacity fields. For small strings, the text is stored inside the string itself; for bigger ones, it’s stored on the heap.
 - Where is the text in your `std::string`?
+  - When I look online sources and read, I saw that for std::string, the actual text isn’t always stored in the same place. For short strings, the text is kept right inside the string object itself, so it’s faster and uses less memory. But if the string is longer, the text gets stored somewhere else in the  the heap, and the string just keeps a pointer to where that text lives.
 - What is `std::optional`?
+  - This gives options like it makes us handle the “no value” case explicitly, which helps avoid bugs related to null pointers or uninitialized values.
 - How do you find out the memory layout of a `std::optional`?
+  -  Debug view and Compiler explorer
 - Read https://en.cppreference.com/w/cpp/memory#Smart_pointers - Guide to 
   modern C++ memory management using smart pointers
 - Which pointer types are the most important to know about?
+  - std::unique_ptr<T> , T* , std::shared_ptr<T> , T**
 - Which smart pointer should you use by default if you can?
+  - std::unique_ptr<T>
 - Does changing your optimization level in `CXXFLAGS` from `-O0` to `-O3` have
   any impact on the answers to any of the above questions?
+    - It would help in performance since `O3` is aggressive but wont change anything in correctness of program
 
 ## More Thinking About Performance
 
 - After your experiments with Compiler Explorer, do you have any updates for
   your answers in exercise-2?
+  - I think the newer code might run a bit slower. It’s creating a new string each time, which takes extra time and memory, and then that string has to be cleaned up afterward. And there’s an extra function call, which adds a little more overhead especially if this part of the code runs often. All of this can hurt performance.
 
 ### Bonus: Do Not Watch Now 
 

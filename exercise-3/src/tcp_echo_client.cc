@@ -45,13 +45,14 @@ void send_and_receive_message(int sock, const std::string &message) {
   char buffer[kBufferSize] = {0};
 
   // Send the message to the server
-  send(sock, message.c_str(), message.size(), 0);
+  ssize_t sent_bytes = send(sock, message.c_str(), message.size(), 0);
+  check_error(sent_bytes < 0, "Send failed");
   std::cout << "Sent: " << message << "\n";
 
   // Receive response from the server
   ssize_t read_size = read(sock, buffer, kBufferSize);
   if (read_size > 0) {
-    std::cout << "Received: " << buffer << "\n";
+    std::cout << "Received: " << std::string(buffer, read_size) << "\n";
   } else if (read_size == 0) {
     std::cout << "Server closed connection.\n";
   } else {
