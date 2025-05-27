@@ -52,7 +52,7 @@
 - Read the code in `src/`
   - Read
 - Are there any bugs in this code? 
-  - I am running debugger but unfortunately not getting any bugs. 
+  -Yes, tcp_echo_client.cc have empty message bug in line 49. We can fix it in code. I will update that.
 - What can you do to identify if there are bugs in the code?
   - We can use gdb debugger to identify the bugs in code
 
