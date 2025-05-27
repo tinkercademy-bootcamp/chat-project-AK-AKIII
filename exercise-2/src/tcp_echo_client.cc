@@ -42,13 +42,19 @@ void connect_to_server(int sock, sockaddr_in &server_address) {
 
 void send_and_receive_message(int sock, const std::string &message) {
   const int kBufferSize = 1024;
-  // #Question - is buffer the best name we can use?
-  char buffer[kBufferSize] = {0};
- // Answer : We can use 
+  char recv_buffer[kBufferSize] = {0};
+  if (message.empty()) {
+    std::cerr << "Cannot send an empty message.\n";
+    return;
+  }
   // Send the message to the server
-  send(sock, message.c_str(), message.size(), 0);
+  ssize_t sent_size = send(sock, message.c_str(), message.size(), 0);
+  if (sent_size < 0) {
+    std::cerr << "Send error\n";
+    return;
+  }
   std::cout << "Sent: " << message << "\n";
-
+//Fixed the bug on the message size<0
   // Receive response from the server
   ssize_t read_size = read(sock, buffer, kBufferSize);
   if (read_size > 0) {
