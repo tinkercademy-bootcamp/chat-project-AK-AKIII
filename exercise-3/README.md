@@ -7,8 +7,13 @@
 - Read the code in `src/tcp_echo_client.cc`
 - A new function `check_error()` has been created and `create_socket()` from 
   exercise-2 has been refactored to make use of it
+    - This is a common function and helps in reducing the repititive use of same error checking code. It will help in making code easier to understand and debugging if required.
 - What are the benefits of writing code in this way?
+  - Cleaer code and easy to understand
+  - Less code duplication because of `check_error()` function
+  - Easy to debugg as well
 - Are there any costs to writing code like this?
+  - Yes, Writing code like this will it complex in situations where we will have to look for errors in all functions
 - Apply `check_error` to all the code in `src/`
 
 ## Introduction to Compiler Explorer
@@ -18,13 +23,19 @@
   `create_socket()` in [Compiler Explorer](https://godbolt.org) - Interactive 
   tool for exploring how C++ code compiles to assembly
 - What is happening here?
+  - In the new version, create_socket includes a call to check_error, which involves constructing a std::string for the erroSr message. 
+  - This introduces both a constructor and a destructor for memory management. The older assembly code is much simpler and uses just a string literal directly, avoiding any constructors or destructors.
 - Can you think of any different approaches to this problem?
+  - I think we can use we could modify check_error to accept a const char* instead of a std::string or maybe we can pass the string as a const std:: string& to avoid cost of copying.
 - How can you modify your Makefile to generate assembly code instead of
   compiled code?
+    - We should use -S instead of -o in compilation.
 - **Note**: You can save the generated assembly from Compiler Explorer
 - **Bonus**: Can you view assembly code using your IDE?
+  - I think this can be viewed by just opening the Assembly code file in IDE
 - **Bonus**: How do you see the assembly when you step through each line in
   debugging mode from your IDE?
+    -  We can see it in debugging mode in VS Code dissembly view.
 - [x86 assembly reference](http://ref.x86asm.net/) - Comprehensive reference 
   for x86 assembly language instructions and syntax
 
