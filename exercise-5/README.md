@@ -6,7 +6,8 @@
 
 - What's an easy way to identify the changes in source code from one exercise
   to another?
-    
+  - We can use the git command for ex if we want to check changes in 2 different branches tcp server exercise_4 and exercise_5 source code : git diff exercise_4 exercise_5 -- src/tcp_echo_server.cc
+
 ## Using Classes
 
 - Here is one way to separate out the code into multiple files
