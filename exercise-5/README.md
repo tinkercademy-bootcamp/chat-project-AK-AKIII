@@ -37,10 +37,17 @@
 
 - Have you ever heard of programmers referring to "code smells"? How can code
   smell?
+  - It just mean that there is code plagiarism or some dependency on other codes
 - What does it mean to have a sense of taste in programming? How can code
   taste?
+  - It just means how well the code can be written in terms of readability,complexity and clean
 - Is there an analogue for every sense?
+  - Maybe not sure
 - What other code senses can you think of?
+  - Similar to our 5 senses,maybe sense of sight means how easy we can figure out the functions and bug of code 
 - How many senses do humans have?
+  - 5 senses
 - When would you want to see something before you touch it?
+  - If its not supposed to be touched like  hot substance etc
 - When would you want to touch something before you see it?
+  - If I can't happen to see it like dark room etc
