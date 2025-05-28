@@ -7,8 +7,8 @@
 - Move code that can be shared between `tcp_echo_server.cc` and 
   `tcp_echo_client.cc` to separate `.h` and `.cc` files
 - How would you compile from the command line?
-  - g++ -o tcp_echo_server tcp_echo_server.cc tcp_common.cc
-  - g++ -o tcp_echo_client tcp_echo_client.cc tcp_common.cc
+  - g++ -o tcp_echo_server tcp_echo_server.cc common.cc
+  - g++ -o tcp_echo_client tcp_echo_client.cc common.cc
 
 - How would you compile using make?
   - I would make a makefile and then on write the command `make` on the terminal
@@ -24,8 +24,13 @@
 - How do you compile a library, and then use that library to compile an
   executable?
   - I use these steps :
-    - g++ -c tcp.cpp -o tcp.o 
-    - 
+  - g++ -c common.cc -o common.o
+  - g++ -c tcp_echo_client.cc -o tcp_echo_client.o
+  - g++ -c tcp_echo_server.cc -o tcp_echo_server.o
+  - ar rcs libcommon.a common.o
+  - g++ tcp_echo_client.o -L. -lcommon -o tcp_echo_client
+  - g++ tcp_echo_server.o -L. -lcommon -o tcp_echo_server
+
 ### Reminder 
 [Quickstart tutorial to make](https://makefiletutorial.com/) - Learn make 
 fundamentals with practical examples and common patterns.
