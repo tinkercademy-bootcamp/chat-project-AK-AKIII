@@ -28,5 +28,8 @@
 ## C++ Package Managers
 
 - Why are there so many C++ package managers?
+  - As what I found information,C++ is old and messy and C++ never had an official one. Everyone had different needs embedded,Windows,Linux devs people compiling from source vs wanting binaries. So instead of one central tool like pip or npm, a bunch of different ones were formed.
 - Which one is the best one?
+  - I think it depends on our use case. vcpkg is popular one i think.
 - Which are the most notable ways to manage the compilation of C++ projects?
+  - CMake and Makefiles 
