@@ -7,86 +7,77 @@
 #include "net/chat-sockets.h"
 #include "utils.h"
 
-namespace tt::chat::server {
-
-void set_socket_options(int sock, int opt) {
-  namespace ttc = tt::chat;
-  auto err_code = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
-                             &opt, sizeof(opt));
-  ttc::check_error(err_code < 0, "setsockopt() error\n");
-}
-
-int create_server_socket() {
-  int sock = net::create_socket();
-  set_socket_options(sock, 1);
-  return sock;
-}
-
-void bind_address_to_socket(int sock, sockaddr_in &address) {
-  namespace ttc = tt::chat;
-  auto err_code = bind(sock, (sockaddr *)&address, sizeof(address));
-  ttc::check_error(err_code < 0, "bind failed\n");
-}
-
-void listen_on_socket(int sock) {
-  namespace ttc = tt::chat;
-  auto err_code = listen(sock, 3);
-  ttc::check_error(err_code < 0, "listen failed\n");
-}
-
-void handle_accept(int sock) {
-  namespace ttc = tt::chat;
-  const int kBufferSize = 1024;
-  char buffer[kBufferSize] = {0};
-  ssize_t read_size = read(sock, buffer, kBufferSize);
-
-  ttc::check_error(read_size < 0,
-                   "Read error on client socket " + std::to_string(sock));
-  if (read_size > 0) {
-    std::cout << "Received:" << buffer << "\n";
-    send(sock, buffer, read_size, 0);
-    std::cout << "Echo message sent\n";
-  } else if (read_size == 0) {
-    std::cout << "Client disconnected.\n";
-  } else {
-    std::cerr << "Read error on client socket " << sock << "\n";
+class ChatServer {
+public:
+  ChatServer(int port) : port_(port) {
+    using namespace tt::chat;
+    server_socket_ = net::create_socket();
+    set_socket_options(server_socket_);
+    address_ = create_address();
+    bind_address();
+    listen_on_socket();
   }
-  close(sock);
-}
 
-sockaddr_in create_server_address(int port) {
-  namespace ttn = tt::chat::net;
-  sockaddr_in address = ttn::create_address(port);
-  address.sin_addr.s_addr = INADDR_ANY;
-  return address;
-}
-
-void handle_connections(int sock, sockaddr_in &address) {
-  socklen_t address_size = sizeof(address);
-
-  while (true) {
-    int accepted_socket = accept(sock, (sockaddr *)&address, &address_size);
-    check_error(accepted_socket < 0, "Accept error n ");
-    handle_accept(accepted_socket);
+  ~ChatServer() {
+    close(server_socket_);
   }
-}
 
-} // namespace tt::chat::server
+  void start() {
+    std::cout << "Server listening on port " << port_ << "\n";
+    handle_connections();
+  }
 
-int main() {
-  namespace ttc = tt::chat;
-  const int kPort = 8080;
+private:
+  int server_socket_;
+  int port_;
+  sockaddr_in address_;
 
-  int my_socket = ttc::server::create_server_socket();
-  sockaddr_in address = ttc::server::create_server_address(kPort);
+  void set_socket_options(int sock) {
+    int opt = 1;
+    int err_code = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt));
+    tt::chat::check_error(err_code < 0, "setsockopt() error\n");
+  }
 
-  // start listening on the socket
-  ttc::server::bind_address_to_socket(my_socket, address);
-  ttc::server::listen_on_socket(my_socket);
+  sockaddr_in create_address() {
+    sockaddr_in addr = tt::chat::net::create_address(port_);
+    addr.sin_addr.s_addr = INADDR_ANY;
+    return addr;
+  }
 
-  std::cout << "Server listening on port " << kPort << "\n";
-  ttc::server::handle_connections(my_socket, address);
-  close(my_socket);
+  void bind_address() {
+    int err_code = bind(server_socket_, (sockaddr *)&address_, sizeof(address_));
+    tt::chat::check_error(err_code < 0, "bind failed\n");
+  }
 
-  return 0;
-}
+  void listen_on_socket() {
+    int err_code = listen(server_socket_, 3);
+    tt::chat::check_error(err_code < 0, "listen failed\n");
+  }
+
+  void handle_connections() {
+    socklen_t address_size = sizeof(address_);
+    while (true) {
+      int client_socket = accept(server_socket_, (sockaddr *)&address_, &address_size);
+      tt::chat::check_error(client_socket < 0, "Accept error\n");
+      handle_client(client_socket);
+    }
+  }
+
+  void handle_client(int client_socket) {
+    const int kBufferSize = 1024;
+    char buffer[kBufferSize] = {0};
+
+    ssize_t read_size = read(client_socket, buffer, kBufferSize);
+    tt::chat::check_error(read_size < 0, "Read error on client socket " + std::to_string(client_socket));
+
+    if (read_size > 0) {
+      std::cout << "Received: " << buffer << "\n";
+      send(client_socket, buffer, read_size, 0);
+      std::cout << "Echo message sent\n";
+    } else {
+      std::cout << "Client disconnected or no data received.\n";
+    }
+
+    close(client_socket);
+  }
+};
