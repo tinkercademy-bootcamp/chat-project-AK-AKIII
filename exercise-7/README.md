@@ -9,7 +9,12 @@
 - https://github.com/joakimthun/io-uring-echo-server
 - https://man7.org/linux/man-pages/man7/epoll.7.html
 - What other resources can you find about epoll?
+  - 
 - Are the above code repos examples of good code or bad code?
+  - The `onestraw/epoll-example` code is easy to follow, but it doesn’t have much in the way of error handling or comments to explain what’s going on.
+  -  The `joakimthun/io-uring-echo-server` example is better organized and shows how to use `io_uring`, but it mixes modern C++ code with older C code, which can be confusing.
+  - I think we should add documentation to the files to make it better. 
+
 - How do you decide what is good code or bad code?
 
 ## Creating a Chat Client/Server Using EPOLL
