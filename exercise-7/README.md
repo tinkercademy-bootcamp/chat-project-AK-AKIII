@@ -16,6 +16,7 @@
   - I think we should add documentation to the files to make it better. 
 
 - How do you decide what is good code or bad code?
+  - When deciding what makes code “good” or “bad,” I look at a few things. First, good code should be readable meaning that someone else (or even we a week later) can look at it and understand what’s going on. It should also handle errors properly so it doesn’t just crash when something goes wrong. Clear documentation and comments really help too. 
 
 ## Creating a Chat Client/Server Using EPOLL
 
