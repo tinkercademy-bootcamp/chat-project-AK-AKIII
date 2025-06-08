@@ -1,15 +1,16 @@
-#include <netinet/in.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <unistd.h>
-
 #include "server/chat-server.h"
+#include <iostream>
 
 int main() {
-  const int kPort = 8080;
+  const int LISTENING_PORT = 35000;
 
-  tt::chat::server::Server server(kPort);
-  server.handle_connections();
+  try {
+    tt::chat::server::Server chat_server(LISTENING_PORT);
+    chat_server.run();
+  } catch (const std::exception &e) {
+    std::cerr << "Server error: " << e.what() << "\n";
+    return 1;
+  }
 
   return 0;
 }

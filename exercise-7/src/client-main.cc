@@ -1,38 +1,64 @@
-#include <arpa/inet.h>
-#include <cstdlib>
-#include <iostream>
-#include <netinet/in.h>
-#include <string>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <unistd.h>
-
 #include "client/chat-client.h"
+#include <iostream>
+#include <string>
 
-namespace {
-std::string read_args(int argc, char *argv[]) {
-  using namespace tt::chat;
-  std::string message = "Hello from client";
-  if (argc == 1) {
-    std::cout << "Usage: " << argv[0] << " <message>\n";
+std::string read_args(int argc, char* argv[]) {
+  if (argc < 2) {
+    std::cout << "Usage: " << argv[0] << " <username>\n";
     exit(EXIT_FAILURE);
   }
-  if (argc > 1) {
-    message = argv[1];
-  }
-  return message;
+  return std::string(argv[1]);
 }
-} // namespace
 
-int main(int argc, char *argv[]) {
-  const int kPort = 8080;
+int main(int argc, char* argv[]) {
+  const int kPort = 35000;
   const std::string kServerAddress = "127.0.0.1";
 
-  std::string message = read_args(argc, argv);
+  std::string username = read_args(argc, argv);
+  tt::chat::client::Client client(kPort, kServerAddress);
 
-  tt::chat::client::Client client{kPort, kServerAddress};
+  std::string response = client.send_and_receive_message(username);
+  std::cout << "[Server] " << response << "\n";
 
-  std::string response = client.send_and_receive_message(message);
+  std::cout << "\nCommands:\n";
+  std::cout << "  /create <channel>\n";
+  std::cout << "  /join <channel>\n";
+  std::cout << "  /channels\n";
+  std::cout << "  /exit\n\n";
+
+  std::string input;
+  std::string current_channel;
+
+  while (true) {
+    std::cout << "> ";
+    if (!std::getline(std::cin, input)) break;
+
+    std::string message;
+
+    if (input.starts_with("/create ")) {
+      current_channel = input.substr(8);
+      message = "c:" + current_channel;
+    } else if (input.starts_with("/join ")) {
+      current_channel = input.substr(6);
+      message = "t:" + current_channel;
+    } else if (input == "/channels") {
+      message = "l:";
+    } else if (input == "/exit") {
+      client.send_and_receive_message("k");
+      break;
+    } else {
+      if (current_channel.empty()) {
+        std::cout << "[error] Join or create a channel first.\n";
+        continue;
+      }
+      message = "m:" + current_channel + ":" + input;
+    }
+
+    std::string reply = client.send_and_receive_message(message);
+    if (!reply.empty()) {
+      std::cout << "[Server] " << reply << "\n";
+    }
+  }
 
   return 0;
 }

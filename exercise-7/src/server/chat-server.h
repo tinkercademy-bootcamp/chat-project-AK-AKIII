@@ -1,24 +1,21 @@
 #ifndef CHAT_SERVER_H
 #define CHAT_SERVER_H
-
-#include <netinet/in.h>
 namespace tt::chat::server {
 
 class Server {
 public:
-  Server(int port);
-  ~Server();
-  void handle_connections();
+  explicit Server(int port);
+  void run();  // Main epoll loop
 
 private:
-  int socket_;
-  sockaddr_in address_;
+  int listen_fd_;
+  int epoll_fd_;
 
-  static constexpr int kBufferSize = 1024;
-
-  void handle_accept(int sock);
-  static void set_socket_options(int sock, int opt);
+  void setup_socket(int port);
+  void handle_new_connection();
+  void handle_client_message(int client_fd);
 };
+
 } // namespace tt::chat::server
 
 #endif // CHAT_SERVER_H
