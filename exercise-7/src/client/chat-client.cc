@@ -1,10 +1,13 @@
 #include "chat-client.h"
 #include "../net/chat-sockets.h"
 #include "../utils.h"
+
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <iostream>
 #include <sys/socket.h>
+#include <cstring>
+#include <thread>
 
 namespace tt::chat::client {
 
@@ -16,25 +19,35 @@ Client::Client(int port, const std::string &server_address)
 }
 
 Client::~Client() {
+  running.store(false);
   close(socket_);
 }
 
-std::string Client::send_and_receive_message(const std::string &message) {
-  using namespace tt::chat;
-  char recv_buffer[kBufferSize] = {0};
+int Client::send_message(const std::string &message) {
+  return send(socket_, message.c_str(), message.size(), 0);
+}
 
-  // Send the message to the server
-  send(socket_, message.c_str(), message.size(), 0);
-  std::cout << "Sent: " << message << "\n";
-
-  // Receive response from the server
-  ssize_t read_size = read(socket_, recv_buffer, kBufferSize);
+std::string Client::receive_message() {
+  char buffer[kBufferSize] = {0};
+  ssize_t read_size = recv(socket_, buffer, kBufferSize - 1, 0);
   if (read_size > 0) {
-    return std::string(recv_buffer);
-  } else if (read_size == 0) {
-    return "Server closed connection.\n";
-  } else {
-    return "Read error.\n";
+    buffer[read_size] = '\0';
+    return std::string(buffer);
+  }
+  return {};
+}
+
+std::string Client::send_and_receive_message(const std::string &message) {
+  send_message(message);
+  return receive_message();
+}
+
+void Client::receive_thread() {
+  while (running.load()) {
+    std::string message = receive_message();
+    if (!message.empty()) {
+      std::cout << "\n[Message] " << message << "\n> " << std::flush;
+    }
   }
 }
 
