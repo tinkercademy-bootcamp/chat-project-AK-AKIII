@@ -1,6 +1,7 @@
 #include "client/chat-client.h"
 #include <iostream>
 #include <string>
+#include <thread>
 
 std::string read_args(int argc, char* argv[]) {
   if (argc < 2) {
@@ -17,8 +18,14 @@ int main(int argc, char* argv[]) {
   std::string username = read_args(argc, argv);
   tt::chat::client::Client client(kPort, kServerAddress);
 
+  // Register username
   std::string response = client.send_and_receive_message(username);
   std::cout << "[Server] " << response << "\n";
+
+  // Start background thread for receiving messages
+  std::thread receiver([&client]() {
+    client.receive_thread();
+  });
 
   std::cout << "\nCommands:\n";
   std::cout << "  /create <channel>\n";
@@ -44,7 +51,7 @@ int main(int argc, char* argv[]) {
     } else if (input == "/channels") {
       message = "l:";
     } else if (input == "/exit") {
-      client.send_and_receive_message("k");
+      client.send_message("k");
       break;
     } else {
       if (current_channel.empty()) {
@@ -54,11 +61,9 @@ int main(int argc, char* argv[]) {
       message = "m:" + current_channel + ":" + input;
     }
 
-    std::string reply = client.send_and_receive_message(message);
-    if (!reply.empty()) {
-      std::cout << "[Server] " << reply << "\n";
-    }
+    client.send_message(message);  // we dont need to block for reply
   }
 
+  receiver.detach(); // we can let OS clean up the thread after process exits
   return 0;
 }
